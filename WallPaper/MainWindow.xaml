@@ -1,0 +1,34 @@
+﻿<Window x:Class="WallPaper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WallPaper" Loaded="Window_Loaded"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="By WallPaper" Height="450" Width="800" FontFamily="Comic Sans MS">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1">
+            <Image Margin="10" x:Name="byImage" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+            </Image>
+        </Border>
+       
+        <StackPanel Grid.Row="1" Height="30" Margin="10" Orientation="Horizontal" VerticalAlignment="Center">
+            <ComboBox Name="cbDpi" VerticalContentAlignment="Center" Width="100">
+                <ComboBoxItem>
+                    1920×1080
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    1366×768
+                </ComboBoxItem>
+            </ComboBox>
+            <Button Margin="10 0 0 0" Width="100" Content="get image" Name="getImage" Click="getImage_Click"/>
+            <Button Margin="10 0 0 0" Width="100" Content="set wallpaper" Name="setWallPaper" Click="setWallPaper_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

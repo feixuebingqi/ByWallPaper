@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WallPaper", "WallPaper\WallPaper.csproj", "{A631DE0A-6840-44C5-A945-45B2FDD872AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByWallPaper", "ByWallPaper\ByWallPaper.csproj", "{49535BFB-18B5-40B6-94C3-48E3F0C38209}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A631DE0A-6840-44C5-A945-45B2FDD872AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A631DE0A-6840-44C5-A945-45B2FDD872AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A631DE0A-6840-44C5-A945-45B2FDD872AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A631DE0A-6840-44C5-A945-45B2FDD872AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49535BFB-18B5-40B6-94C3-48E3F0C38209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49535BFB-18B5-40B6-94C3-48E3F0C38209}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49535BFB-18B5-40B6-94C3-48E3F0C38209}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49535BFB-18B5-40B6-94C3-48E3F0C38209}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7EF9EBE4-A70B-475C-B333-D4F2AB56CC15}
+	EndGlobalSection
+EndGlobal
