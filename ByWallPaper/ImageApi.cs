@@ -11,6 +11,12 @@ namespace ByWallPaper
 {
     public class ImageApi
     {
+        /// <summary>
+        /// 解析必应地址内容
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         public async static Task<ByContent> GetContentImage(string url, Encoding encoding)
         {
             ByContent content = new ByContent();
@@ -27,10 +33,10 @@ namespace ByWallPaper
         }
 
         /// <summary>
-        /// 获取必应地址下内容
+        /// 获取Html内容
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="encoding"></param>
+        /// <param name="url">地址</param>
+        /// <param name="encoding">编码</param>
         /// <returns></returns>
         internal async static Task<string> GetByFile(string url, Encoding encoding)
         {
@@ -68,7 +74,7 @@ namespace ByWallPaper
 
 
         /// <summary>
-        /// 获取网页数据流
+        /// 获取Html内容数据流
         /// </summary>
         /// <param name="url">Url</param>
         /// <returns>数据流</returns>
