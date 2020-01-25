@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ByWallPaper;
 using System.Drawing;
+using System.IO;
+using System.Configuration;
 
 namespace WallPaper
 {
@@ -23,7 +25,9 @@ namespace WallPaper
     public partial class MainWindow : Window
     {
         // 必应壁纸的URL地址
-        const string ByUrl = "https://cn.bing.com/HPImageArchive.aspx?idx=4&n=1";
+        const string ByUrl = "https://cn.bing.com/HPImageArchive.aspx?idx=0&n=1";
+        ByContent content = new ByContent();
+        readonly string Dir = ConfigurationManager.AppSettings["dir_path"];
 
         public MainWindow()
         {
@@ -32,7 +36,7 @@ namespace WallPaper
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            cbDpi.SelectedIndex = 0;
+            
         }
 
         private async void getImage_Click(object sender, RoutedEventArgs e)
@@ -40,18 +44,12 @@ namespace WallPaper
             try
             {
                 // 获取壁纸内容
-                var imgs = await ImageApi.GetContentImage(ByUrl, Encoding.UTF8, cbDpi.Text.Trim());
+                content = await ImageApi.GetContentImage(ByUrl, Encoding.UTF8);
 
-                if (imgs.Content.Length > 0)
-                {
-                    BitmapImage img = new BitmapImage();
+                byImage.Source = Converter.Image2ImageSource(content.Image);
 
-                    img.BeginInit();
-                    img.UriSource = new Uri(imgs.Images[0].Url);
-                    img.EndInit();
-
-                    byImage.Source = img;
-                }
+                lblDescr.Content = content.Descr;
+                lblDate.Content = "日期：" + content.Date;
             }
             catch(Exception ex)
             {
@@ -61,9 +59,32 @@ namespace WallPaper
 
         private void setWallPaper_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                if (!File.Exists(Dir))
+                {
+                    Directory.CreateDirectory(Dir);
+                }
+                string file = System.IO.Path.Combine(Dir, content.Date + ".jpg");
 
-        }
+                if (content.Image != null)
+                {
+                    // 1. Save image
+                    content.Image.Save(file);
+                    // 2. Set wall paper
+                    ImageApi.SetWallPaper(file);
 
-        
+                    MessageBox.Show("Wall paper set successfully", "Wall paper", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Please load the picture first!", "Load", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }       
     }
 }

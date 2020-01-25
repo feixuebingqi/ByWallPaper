@@ -1,18 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace ByWallPaper
 {
     /// <summary>
-    /// 必应解析的内容
+    /// 必应壁纸解析内容
     /// </summary>
     public class ByContent
     {
-        public string Content { get; set; }
+        /// <summary>
+        /// 图片描述
+        /// </summary>
+        public string Descr { get; set; }
 
-        public ImageEntity[] Images { get; set; }
+        /// <summary>
+        /// 日期
+        /// </summary>
+        public string Date { get; set; }
+
+        /// <summary>
+        /// 图片路径地址
+        /// </summary>
+        public string ImageUrl { get; set; }
+
+        /// <summary>
+        /// 图片
+        /// </summary>
+        public Image Image { get; set; }
     }
 }

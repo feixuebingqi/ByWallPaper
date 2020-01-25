@@ -3,39 +3,27 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Net;
 using System.IO;
-using System.Text.RegularExpressions;
+using System.Xml.Linq;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace ByWallPaper
 {
     public class ImageApi
     {
-
-        public const string RegexStr= "<Url>(?<Url>.*?)</Url>";
-
-        public async static Task<ByContent> GetContentImage(string url, Encoding encoding, string dpi)
+        public async static Task<ByContent> GetContentImage(string url, Encoding encoding)
         {
-            ByContent entity = new ByContent();
+            ByContent content = new ByContent();
 
-            Regex regex = new Regex(RegexStr, RegexOptions.IgnoreCase);
+            var xmlData =await GetByFile(url, encoding);
+            var root = XDocument.Parse(xmlData).Descendants();
 
-            await Task.Run(() =>
-            {
-                entity.Content = GetByFile(url, encoding);
-                MatchCollection collection = regex.Matches(entity.Content);
+            content.Date = root.Elements("enddate").FirstOrDefault().Value;
+            content.Descr = root.Elements("copyright").FirstOrDefault().Value;
+            content.ImageUrl = "http://www.bing.com" + root.Elements("url").FirstOrDefault().Value;
+            content.Image = GetImageFromUrl(content.ImageUrl);
 
-                entity.Images = new ImageEntity[collection.Count];
-
-                for (int i = 0; i < collection.Count; i++)
-                {
-                    string path = "http://www.bing.com" + collection[0].Groups["Url"].Value;
-                    entity.Images[i] = new ImageEntity();
-                    entity.Images[i].Url = path;
-                    entity.Images[i].Image = GetImageFromUrl(path);
-                }
-
-            });
-
-            return entity;
+            return content;
         }
 
         /// <summary>
@@ -44,17 +32,21 @@ namespace ByWallPaper
         /// <param name="url"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        internal static string GetByFile(string url, Encoding encoding)
+        internal async static Task<string> GetByFile(string url, Encoding encoding)
         {
             string result = "";
-            using (var stream = GetHtmlStream(url)) 
-            {
-                using (StreamReader sr = new StreamReader(stream, encoding)) 
-                {
-                    result = sr.ReadToEnd();
-                }
-            }
 
+            await Task.Run(() =>
+            {
+                using (var stream = GetHtmlStream(url))
+                {
+                    using (StreamReader sr = new StreamReader(stream, encoding))
+                    {
+                        result = sr.ReadToEnd();
+                    }
+                }
+            });
+           
             return result;
         }
 
@@ -85,6 +77,28 @@ namespace ByWallPaper
             WebRequest req = WebRequest.Create(url);
             WebResponse resp = req.GetResponse();
             return resp.GetResponseStream();
+        }
+
+
+        [DllImport("user32.dll", EntryPoint = "SystemParametersInfo")]
+        public static extern int SystemParametersInfo(
+            int uAction,
+            int uParam,
+            string lovParam,
+            int fulWinIni
+            );
+
+
+        /// <summary>
+        /// 设置背景图片
+        /// </summary>
+        /// <param name="strSavePath">图片文件绝对路径</param>
+        public static void SetWallPaper(string strSavePath)
+        {
+            if (File.Exists(strSavePath))
+            {
+                SystemParametersInfo(20, 1, strSavePath, 1);
+            }
         }
     }
 }
