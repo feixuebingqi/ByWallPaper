@@ -170,60 +170,59 @@ public class ByContent
 
 ## 4. 主程序
 
-+ 1 获取必应壁纸
+### 1. 获取必应壁纸
 
-  ```C#
-  private async void getImage_Click(object sender, RoutedEventArgs e)
-  {
-      try
-      {
-          // 获取壁纸内容
-          content = await ImageApi.GetContentImage(ByUrl, Encoding.UTF8);
-  
-          byImage.Source = Converter.Image2ImageSource(content.Image);
-  
-          lblDescr.Content = content.Descr;
-          lblDate.Content = "日期：" + content.Date;
-      }
-      catch(Exception ex)
-      {
-          MessageBox.Show(ex.Message);
-      }
-  }
-  ```
+```C#
+private async void getImage_Click(object sender, RoutedEventArgs e)
+{
+    try
+    {
+        // 获取壁纸内容
+        content = await ImageApi.GetContentImage(ByUrl, Encoding.UTF8);
 
-+ 2.设置桌面壁纸
+        byImage.Source = Converter.Image2ImageSource(content.Image);
 
-  ```C#
-  private void setWallPaper_Click(object sender, RoutedEventArgs e)
-  {
-      try
-      {
-          if (!File.Exists(Dir))
-          {
-              Directory.CreateDirectory(Dir);
-          }
-          string file = System.IO.Path.Combine(Dir, content.Date + ".jpg");
-  
-          if (content.Image != null)
-          {
-              // 1. Save image
-              content.Image.Save(file);
-              // 2. Set wall paper
-              ImageApi.SetWallPaper(file);
-  
-              MessageBox.Show("Wall paper set successfully", "Wall paper", MessageBoxButton.OK, MessageBoxImage.Information);
-          }
-          else
-          {
-              MessageBox.Show("Please load the picture first!", "Load", MessageBoxButton.OK, MessageBoxImage.Warning);
-          }
-      }
-      catch(Exception ex)
-      {
-          MessageBox.Show(ex.Message);
-      }
-  }   
-  ```
+        lblDescr.Content = content.Descr;
+        lblDate.Content = "日期：" + content.Date;
+    }
+    catch(Exception ex)
+    {
+        MessageBox.Show(ex.Message);
+    }
+}
+```
 
-  
+### 2.设置桌面壁纸
+
+```C#
+private void setWallPaper_Click(object sender, RoutedEventArgs e)
+{
+    try
+    {
+        if (!File.Exists(Dir))
+        {
+            Directory.CreateDirectory(Dir);
+        }
+        string file = System.IO.Path.Combine(Dir, content.Date + ".jpg");
+
+        if (content.Image != null)
+        {
+            // 1. Save image
+            content.Image.Save(file);
+            // 2. Set wall paper
+            ImageApi.SetWallPaper(file);
+
+            MessageBox.Show("Wall paper set successfully", "Wall paper", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        else
+        {
+            MessageBox.Show("Please load the picture first!", "Load", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+    }
+    catch(Exception ex)
+    {
+        MessageBox.Show(ex.Message);
+    }
+}   
+```
+
